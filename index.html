@@ -1,0 +1,473 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0">
+    <title>BTC-USDT@HUOBI</title>
+    <link rel="icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAMAAABEpIrGAAAAA3NCSVQICAjb4U/gAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAGXRFWHRTb2Z0d2FyZQB3d3cuaW5rc2NhcGUub3Jnm+48GgAAAitQTFRF/////4AA/6oA/4AA/5kz/4sX8pQb9JUV9Y8f9pUa95Ea95QZ95MX+JYX+JUc+JEc+JQb+JAa+ZUZ9JUb9ZIa9ZQa9ZEZ9ZMZ9pQb95Ua95IZ95Eb+JQa+JQc+JQb+JMa9pQb95IZ95Ib95Qb95Ma95Ma95Qa+JQa+JIa+JMZ9pQZ9pMa9pQa95QZ95Ib95Mb95Ia95Ma95MZ95Ma+JQa+JQa+JIZ9pMb9pQa9pMa9pMa9pIa95Ia95Mb95Ma95Ia95Qa95Ma95MZ95Ib95Mb95Ma95Ma+JQZ+JMa95Ma95Ma95Ma95Ma95Ma95Ma95Ma95Ma95Ma95Ma95Qa95Ma95Ma95Ma95Ma95Ma95Ma95Ma95Mb95Ue95Yf95Yg95Yh95cj95gl+Joo+Jsq+Jss+J0v+J0w+J4w+J4x+J4y+KA1+KA2+KE3+KE4+KM8+KQ/+KZC+ahG+apL+a5T+a9W+bFa+bNe+bRg+rhp+rlq+rpu+rtu+r1y+8OA+8SC+8iJ+8mM+8qP+8qQ+8uR+82U+82W+86Y+8+a/NCb/NCc/NGe/NSk/NWm/Nao/Nmu/Nqw/Nqx/Nu0/d65/d+8/eG+/eHA/eLB/eLC/ePF/eTG/eXI/efM/efN/erS/erT/uvV/uzX/u3Y/u7a/u7b/u/e/vDg/vHg/vHi/vLj/vTo/vTp/vXp/vbr/vfu/vjw//nz//r0//r1//z4//z5//37//78//79///+////pTiBTwAAAFp0Uk5TAAIDBAULExgZHR4fISIkJSYnKTAxMjM0OTw9QUVKTE5WW15fYWNka2xvcHR3eXx9gYKEh4qMjZCRkpOUlpmam52goaKjpqirrri72+Hj6Ors7fHy8/X4+vv+wETTwAAAAaxJREFUGBltwYdDjHEABuCX7L2z90ohZJQZQkaI4l4JUcku2ZFVRPYeHdLZo4zr/fNc3/e73/fdueeBX/+psxcsmzMhuTMS6ZW5iUbewmGI133FDvqt640Yo/MYpyAFPmkB/i8D1nRa++lZAmN8gNbLL3sqj9GYDEe3LXSVk8W/3/CpyukqGIQOy+na9f3rvTo1FLW9Z1QuIgYE6CoNtkv6+VqNtIYASKd1To6/t8to5ADYQOu0FKq68kFqq6ZrWxcMpKdeaiT3vZKCNEZgLD1N0nmSV6UfNGZhBq2SsFRXXXHym3SXRhYyaJ1R1KcTNLKRTuuG9PDS8z9S61FGrUUqraB0gTz4TAodopGJiXTtLTselg6TPCLpGo0U9KXrosLSR0ZUSrpOYwywkY5HimhvuV9787OkU3Rt7wospqv0bJOintDIBtBnJ40Xqnqg0Nt3zbdKaIxCxEq6dv9q5mNV0CcXHXpupePAnctFrS30KewHxzhGFdfU0CcVxlwmlAVrJhNY3QmeSfmMUzgNMXrkMMb6wYg3dNFmGvlrkpFI0sgp81YtnZ82PAmef3QeP0PAzgscAAAAAElFTkSuQmCC" type="image/x-icon">
+    <link rel="stylesheet" type="text/css" href="http://client.ttall.net/public/jsmin/css/index.css">
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script type="text/javascript">
+var SYMBOL = 'btc-usdt@huobi';
+$(function(){
+    
+    SYMBOL = window.location.search.substr(1);
+    if( SYMBOL.length < 5 ) {
+        SYMBOL = 'btc-usdt@huobi';
+    }
+    document.title=SYMBOL.toUpperCase();
+        
+    SYMBOL = SYMBOL.toLowerCase();
+    document.querySelector('.symbol').innerHTML = SYMBOL.split('@')[0].toUpperCase() +'</span><span class="fromMarket"><br />@' + SYMBOL.split('@')[1];
+});
+        devHeight = $(window).height()- 60;
+        if(devHeight < 600){ devHeight = 600;}
+$(function () {
+    var plotid = [] ,
+        fibo   = [] ,
+        gold   = [] ,
+        getData= [] , 
+        fb        = [] ,
+        //user
+        xStart = 0  , 
+        xEnd   = 0  ,
+        key    = 0  ;
+        hasPlotLines = -1;
+    function afterSetExtremes(e) {
+        var chart = $('#container1m').highcharts();
+        xStart = e.min ;
+        xEnd   = e.max;
+        /*
+        chart.showLoading('Loading data from server...');
+        $.getJSON('https://www.highcharts.com/samples/data/from-sql.php?start=' + Math.round(e.min) +
+                  '&end=' + Math.round(e.max) + '&callback=?', function (data) {
+            chart.series[0].setData(data);
+            chart.hideLoading();
+        });
+        */
+    }        
+    var setExtremes = function(start,end){
+        chart.xAxis[0].setExtremes(start,end);
+    }    
+    var drawFiboPlotLines = function(){
+        var chart = $('#container1m').highcharts();
+        chart.yAxis[0].removePlotLine('goldPlotLine');
+        var goldMax = chart.yAxis[0].dataMax;
+        var goldMin = chart.yAxis[0].dataMin;
+        if(goldMax > 0 && $("#gold").hasClass("active")){
+            gold = [['最高',goldMax],['0.618',(goldMax-goldMin)*0.618+goldMin],['0.5__',(goldMax-goldMin)*0.5+goldMin],['0.382',(goldMax-goldMin)*0.382+goldMin],['最低',goldMin]];
+            i = 0;
+            for(i;i < gold.length; i+=1){
+                chart.yAxis[0].addPlotLine({
+                                    id   :'goldPlotLine',
+                                    value:gold[i][1],
+                                    color:'cyan',
+                                    dashStyle:'shortdash',
+                                    width: 1,
+                                    label:{
+                                        style:{
+                                            color:'cyan'
+                                            },
+                                            text:gold[i][0]+' : '+gold[i][1].toFixed(9)
+                                        }});
+            }
+        }
+        i = 0;
+        chart.xAxis[0].removePlotLine('fiboPlotLine');
+        if($("#fibo").hasClass("active")){
+            for(i ; i < fibo.length; i+=1){ 
+                chart.xAxis[0].addPlotLine(fibo[i]);
+            }
+        }    
+    }
+    $("#more").click(function(){
+        var newHeight =  chart.chartHeight + 20;
+        var newWidth  =  chart.chartWidth;
+        devHeight = newHeight;
+        chart.setSize(newWidth, newHeight);
+    });   
+    $("#less").click(function(){
+        var newHeight =  chart.chartHeight - 20;
+        var newWidth  =  chart.chartWidth;
+        devHeight = newHeight;
+        chart.setSize(newWidth, newHeight);
+    });       
+    var redToGreen = function(value1,value2,id){
+        if(value1 > value2){
+                $("#"+id).addClass("r");
+                $("#"+id).removeClass("g");
+        }else{
+                $("#"+id).addClass("g");
+                $("#"+id).removeClass("r");
+        }
+    }
+    var updateChart = function(data,myAxis,newData){
+        var lastIndex = chart.series[0].data.length;
+        var firstDateTime = data[0]['outOfSeries']['datetime'][1];
+        var dateTimeLength = data[0]['outOfSeries']['datetime'].length -1;
+        if ( xStart == 0 ) {
+            if ( dateTimeLength > 150  ) {
+                xStart = data[0]['outOfSeries']['datetime'][dateTimeLength - 150] ;
+            } else {
+                xStart = data[0]['outOfSeries']['datetime'][1] ;
+            }
+            xEnd = data[0]['outOfSeries']['datetime'][dateTimeLength];
+        }
+        var lastDateTime  = data[0]['outOfSeries']['datetime'][data[0]['outOfSeries']['datetime'].length-1];
+        var fiboF = 2,fiboS = 3,fiboN =7,tem;
+        newDataLength = data.length;
+        seriesLength = (optionsKLine.series.length);
+        i = seriesLength-1;
+        for ( i ; i > 0 ; i-=1)
+        {
+            if(optionsKLine.series[i].yAxis == myAxis)
+            {
+                optionsKLine.series.splice(i,1);
+            }
+        }
+        i = 1;    
+        j = 0;
+        for( i ; i < newDataLength; i+=1){
+            if(data[i].type == 'candlestick'){
+                fibo   = [] ;
+                j = 0;
+                for(j;j<data[i].data.length;j+=1){
+                    key = parseInt(data[i]['data'][j][4]);
+                    if ($.isEmptyObject(fb[key])) {
+                        fb[key] = data[i]['data'][j][5];
+                    } else {
+                        fb[key] += data[i]['data'][j][5];
+                    }
+                }
+                j = 0 ;
+                lastIndex = data[i].data.length;
+                for( j ; j < fiboN ; j+=1 ){
+                    if((fiboS + fiboF) < lastIndex){
+                        fibo.push({
+                            id    : 'fiboPlotLine',
+                            value : data[i].data[lastIndex - (fiboF+fiboS)][0],
+                            color:' cyan',
+                            dashStyle:'shortdash',
+                            width: 1,
+                            label:{    text:fiboF+fiboS,
+                                    rotation:0,
+                                    style: {
+                                        color: 'cyan',
+                                        fontWeight: 'bold'
+                                    }}
+                            });    
+                    }        
+                        tem   = fiboF
+                        fiboF = fiboS;
+                        fiboS = fiboS + tem;
+                }   
+            } else {
+                if(newData == 1) {
+                    j = 0;
+                    switch(data[i].type){
+                    case 'columnrange':
+                        for(j;j<data[i].data.length;j+=1){
+                            data[i]['data'][j] = [data[0]['outOfSeries']['datetime'][j+1],data[i]['data'][j][0],data[i]['data'][j][1]];
+                        }
+                        break;
+                    default:
+                        for(j;j<data[i].data.length;j+=1){
+                            data[i]['data'][j] = [data[0]['outOfSeries']['datetime'][j+1],data[i]['data'][j]];
+                        }
+                    }                    
+                }
+            }
+            data[i].yAxis =myAxis;
+            if(data[i].color == null){
+                data[i].color = Highcharts.getOptions().colors[i];
+            }
+            optionsKLine.series.push(data[i]);
+        }
+    
+        optionsKLine.chart.height = devHeight;
+        chart  =  new Highcharts.Chart(optionsKLine); 
+        //if(xEnd > 0) {
+            chart.xAxis[0].setExtremes(xStart,xEnd,true,false);
+        //}
+        inarray = $.isEmptyObject(data[0].outOfSeries.plotLines);
+        i = plotid.length-1;
+        for(i; i>=0;i-=1){
+            if(myAxis == plotid[i][0]){
+                chart.yAxis[myAxis].removePlotLine(plotid[i][1]);
+                plotid.splice(i,1);
+            }    
+        }   
+        if(!inarray){
+        i = 0;
+            for(i;i<data[0].outOfSeries.plotLines.length;i+=1){
+                chart.yAxis[myAxis].addPlotLine(data[0].outOfSeries.plotLines[i]);
+                plotid.push([myAxis,data[0].outOfSeries.plotLines[i].id]);
+            }    
+        }
+        drawFiboPlotLines();
+        $(".modal").hide();
+    }
+    var myfunc = function(f,main,cy,d,callback,myAxis,showTips){ 
+        var lastIndex = chart.series[0].data.length;
+        var fiboF = 2,fiboS = 3,fiboN =7,tem;
+        if(f == "mainauto"){
+            f = $("#userdata").attr('mainupdate');
+        }
+        if(f == "subauto"){
+            f = $("#userdata").attr('subupdate');
+        }
+        if(cy == "auto"){
+            cy = $("#userdata").attr('cycle');
+        }
+        
+        //eval("res = ins_"+f);
+        //if(typeof(res)!=="undefined"){
+            //$("#formula_ins").html(res);
+        //}
+        /**/
+        if(showTips ||typeof(showTips)=="undefined"){
+            //_czc.push(["_trackEvent", "changeFormula", f, "1", 2, "3"]);
+            $(".modal").show();
+        }else{
+        }
+        if( myAxis <0  || typeof(myAxis)=="undefined"){
+            myAxis = 1;
+        }else{
+        }
+        if(f=='more'){$(".modal").hide();return};
+            //    console.log('/index.php/home/index/getJson/f/'+f+'/main/'+main+'/cy/'+cy+'/d/'+d+'/callback/'+callback+'/since/0/s/btc-usdt@huobi');
+        if(!$.isEmptyObject(getData[f+'_'+main+'_'+cy+'_'+d+'_'+myAxis]) && Date.parse(new Date())/1000 - getData[f+'_'+main+'_'+cy+'_'+d+'_'+myAxis]['updataTime'] < 30){
+            data = getData[f+'_'+main+'_'+cy+'_'+d+'_'+myAxis]['data'];
+            updateChart(data,myAxis,0);
+        }else{
+            if(cy == '1d') {
+                var returnRange = 1000;
+            } else {
+                var returnRange = 800;
+            }
+            
+            $.getJSON('http://client.ttall.net/index.php/home/index/getJson/f/'+f+'/main/'+main+'/cy/'+cy+'/d/'+d+'/callback/'+callback+'/since/0/r/'+returnRange+'/s/'+SYMBOL, function (data,status) {
+                getData[f+'_'+main+'_'+cy+'_'+d+'_'+myAxis] = {'data':data,'updataTime' : Date.parse(new Date())/1000};
+                updateChart(data,myAxis,1);
+            });
+        }            
+    }
+    optionsKLine = ({
+        chart: {
+            renderTo:'container1m',
+            height: devHeight,
+        },
+        navigator: {
+            enabled: true, //false
+            margin: 2,
+            height: 17
+        },
+        plotOptions: {
+            series: {
+                    animation: false,
+                    dataGrouping: {
+                        enabled : false
+                    }
+                }
+            },        
+        xAxis: {
+                events : {
+                    afterSetExtremes : afterSetExtremes
+                },
+            startOnTick: false,//true,//
+            endOnTick:true,
+            minPadding:0,
+            maxPadding:0,
+            ordinal: true //false
+            },
+        yAxis: [{
+            minorTickInterval: 'auto',
+            showLastLabel: true,
+            showFirstLabel: false,
+            labels: {
+                style:
+                {"color":"#FCFFa5","fontWeight":"bold"},
+                align: 'right',
+                x: -3
+            },
+            title: 'ohlc',
+            height: '61.8%',
+            lineWidth: 0,
+            opposite: false //true,
+        },
+        {    
+            minorTickInterval: 'auto',
+            labels: {
+                style:
+                {"color":"#FCFFa5","fontWeight":"bold"},
+                align: 'right',
+                x: -3
+            },
+            title: {
+                text: ''
+            },
+            /*Volume*/
+            top: '61.8%',
+            height: '38.2%',
+            offset: 0,
+            lineWidth: 0,
+            opposite: false
+        }],
+        series: [{
+            type:'line',
+            name:'价',
+            //data: cline,
+            yAxis: 0,
+            id:'c',
+            color: '#FFFFFF',
+        },
+        {
+            animation: false,
+            type: 'column',
+            pointWidth: 2,
+            name: '量',
+        //    data: volume,
+            yAxis: 1,
+            color: '#FCFFa5',
+        }]
+    });
+    Highcharts.setOptions(Highcharts.option);
+    Highcharts.setOptions({global: {useUTC: true}});
+    Highcharts.setOptions(Highcharts.theme);
+    var chart = new Highcharts.Chart(optionsKLine);
+    $(".cy").on("click",function(){
+        xStart = xEnd = 0;
+        var oldtarget =$("#userdata").attr('cycle');
+        var target = $(this).attr("target");
+        if(target !== oldtarget){
+            $(".cy").each(function(){
+                $(this).removeClass("active");
+            });
+            $(this).addClass("active");
+            $("#userdata").attr('cycle',target);
+            myfunc('mainauto',1,'auto','now','auto',0,false);
+            myfunc('subauto',0,'auto','now','auto',1,false);
+        }    
+    });
+    $(".modal").hide();
+    myfunc('ma',1,'1d','now','ma',0,false);
+    myfunc('vol',0,'1d','now','vol',1,false);
+    $("label.subupdate").click(function(){
+        var oldtarget =$("#userdata").attr('subupdate');
+        var target = $(this).attr("target"); 
+        if(target !== oldtarget){
+            $(".subupdate").each(function(){
+                $(this).removeClass("active");
+            });
+            $(this).addClass('active');
+            if(target !== 'more'){
+                $("#userdata").attr('subupdate',target);
+            }    
+            myfunc(target,0,'auto','now',target,1);
+        }    
+    });
+    $("label.mainupdate").click(function(){
+        var oldtarget =$("#userdata").attr('mainupdate');
+        var target = $(this).attr("target"); 
+        if(target !== oldtarget){
+            $(".mainupdate").each(function(){
+                $(this).removeClass("active");
+            });
+            $(this).addClass('active');
+            $("#userdata").attr('mainupdate',target);
+            myfunc(target,1,'auto','now',target,0);
+        }
+    });
+    $("label.auxiliary").click(function(){
+    
+        if($(this).hasClass("active")){
+            $(this).removeClass("active");
+            
+        }else{
+            $(this).addClass("active");
+        }
+            drawFiboPlotLines();
+    });
+});
+</script>
+</head>
+
+<body>
+    <script src="https://code.highcharts.com/stock/highstock.js"></script>
+    <script src="https://code.highcharts.com/stock/highcharts-more.js"></script>
+    <script src="https://code.highcharts.com/stock/modules/drag-panes.js"></script>
+    <script src="http://client.ttall.net/public/jsmin/highstock6/themes/stock-option-btc.js"></script>
+    <script src="http://client.ttall.net/public/jsmin/highstock6/themes/stock-qianlong-btc.js"></script>
+    <div class="row">
+        <div class="col-9 col-m-9">
+            <div>
+                <ul style="padding-left: 40px;">
+                    <li><label class="cy " target="5m">5分钟</label></li>
+                    <li><label class="cy" target="15m">15分钟</label></li>
+                    <li><label class="cy" target="30m">30分钟</label></li>
+                    <li><label class="cy" target="1h">60分钟</label></li>
+                    <li><label class="cy active" target="1d">日线</label></li>
+                    <li><label class="cy " target="1w">周线</label></li>
+                </ul> <span class=" y bold" id="userdata" cycle="1d" subupdate="vol" mainupdate="ma"> * 注意:所有数据均为模拟，仅供功能演示！</span>
+            </div>
+            <div id="container1m" style="min-height: 800px; min-width: 500px"></div>
+        </div>
+        <div class="col-1 col-m-1" style="height:800px">
+            <div class="thin" style="height:20.2%">
+                <ul>
+                    <li><span class="stitle y">主图指标</span></li>
+                    <li><label class="mainupdate active" target="ma"><input type="radio" name="mainradio" checked="checked">MA</label></li>
+                    <li><label class="mainupdate" target="boll"><input type="radio" name="mainradio">BOLL</label></li>
+                    <li><label class="mainupdate" target="ene"><input type="radio" name="mainradio">ENE</label></li>
+                </ul>
+            </div>
+            <div class="thin" style="height:18%">
+                <ul>
+                    <li><span class="stitle y">辅助线</span></li>
+                    <li><label class="auxiliary" target="fibo" id="fibo">斐波那契</label></li>
+                    <li><label class="auxiliary" target="gold" id="gold">黄金分割</label></li>
+                </ul>
+            </div>
+            <div class="thin" style="height:61.8%">
+                <ul>
+                    <li><span class="stitle y">副图指标</span></li>
+                    <li><label class="subupdate active" target="vol"><input type="radio" name="radio" checked="checked">VOL</label></li>
+                    <li><label class="subupdate " target="macd"><input type="radio" name="radio">MACD</label></li>
+                    <li><label class="subupdate" target="kdj"><input type="radio" name="radio">KDJ</label></li>
+                    <li><label class="subupdate" target="obv"><input type="radio" name="radio">OBV</label></li>
+                    <li><label class="subupdate" target="lqj"><input type="radio" name="radio">波浪</label></li>
+                    <li><label class="subupdate" target="zcx"><input type="radio" name="radio">利筹</label></li>
+                    <li><label class="subupdate" target="psy"><input type="radio" name="radio">PSY</label></li>
+                    <li><label class="subupdate" target="lichou"><input type="radio" name="radio">CL</label></li>
+                    <li><label class="subupdate" target="more"><input type="radio" name="radio" disabled>更多</label></li>
+                    <li><label id="more">图表高度+</label></li>
+                    <li><label id="less">图表高度-</label></li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-2 col-m-2">
+            <table>
+                <tr>
+                    <th colspan="2"><span class='symbol'>BTC-USDT</span></th>
+                    <th colspan="2"><span class='code right'></span></th>
+                </tr>
+            </table>
+            <div class="hide">
+            </div>
+            <!--table> <tr> <td >最新</td> <td ><span class='pr r' id='newprice'>0.00</span></td> </tr><tr> <td>涨跌</td> <td ><span class='pr r' id='difference'>0.00</span></td> </tr><tr> <td>幅度</td> <td ><span class='pr perc r' id='range'>0.00</span></td> </tr><tr> <td>开盘</td> <td ><span class='pr r' id='open'>0.00</span></td> </tr><tr> <td>最高</td> <td ><span class='pr r' id='high'>0.00</span></td> </tr><tr> <td>最低</td> <td ><span class='pr g' id='low'>0.00</span></td> </tr><tr> <td><span>昨收</span></td><td><span class='pr w' id='lastClose'>0.00</span></td> </tr> </table-->
+            <div class="thin" id="k_data"></div>
+            <div class="thin" id="y0_data"></div>
+            <div class="thin" id="y1_data"></div>
+            <div class="thin" id="formula_ins"></div>
+        </div>
+    </div>
+    <div class="modal">
+        <div class="modal-wrapper">
+            <p>数据读取中，请稍候...</p>
+        </div>
+    </div>
+</body>
+
+</html>
