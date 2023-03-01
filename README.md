@@ -5,3 +5,5 @@
 
 ## 演示地址
 http://client.ttall.net/index.php/home/index/k/s/btc-usdt@huobi/f/lichou_new
+![gainer](https://ioying.github.io/getdata/gainer.png)
+![wave](https://ioying.github.io/getdata/wave.png)
